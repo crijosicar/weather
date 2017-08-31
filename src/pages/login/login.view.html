@@ -1,0 +1,59 @@
+<ion-content padding>
+    <form [formGroup]="loginForm" (ngSubmit)="sendForm()">
+        <ion-grid>
+            <ion-row>
+                <ion-col width-100>
+                    <ion-item>
+                        <ion-label color="primary" stacked>Usuario</ion-label>
+                        <ion-input type="text" formControlName="usuario" clearInput>
+                        </ion-input>
+                    </ion-item>
+                    <div *ngIf="loginForm.controls.usuario.hasError('required') 
+                        && loginForm.controls.usuario.touched" class="alert alert-danger">
+                        Requerido.
+                    </div>
+                    <div *ngIf="loginForm.controls.usuario.hasError('pattern') 
+                        && loginForm.controls.usuario.touched" class="alert alert-danger">
+                        Email inválido.
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col width-100>
+                    <ion-item>
+                        <ion-label color="primary" stacked>Contraseña</ion-label>
+                        <ion-input type="password" formControlName="contrasenia"></ion-input>
+                    </ion-item>
+                    <div *ngIf="loginForm.controls.contrasenia.hasError('required') 
+                        && loginForm.controls.contrasenia.touched" class="alert alert-danger">
+                        Requerido.
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col width-100>
+                    <button ion-button type="submit" outline round>
+                        Ingresar
+                    </button>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col width-50>
+                    <a (click)="loginConFB()">
+                        Registrarse
+                    </a>
+                </ion-col>
+                <ion-col width-50>
+                    <a [navPush]="registerComponent">
+                        Registrarse
+                    </a>
+                </ion-col>
+                <ion-col width-50>
+                    <a [navPush]="passwordRecoveryComponent">
+                        Restablecer contraseña
+                    </a>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </form>
+</ion-content>

@@ -1,0 +1,196 @@
+<ion-content padding>
+    <form [formGroup]="registerForm" (ngSubmit)="sendForm()">
+        <ion-grid>
+            <ion-row>
+                <ion-col width-100>
+                    <ion-item>
+                        <ion-label color="primary" stacked>Nombre</ion-label>
+                        <ion-input type="text" formControlName="name">
+                        </ion-input>
+                    </ion-item>
+                    <div *ngIf="registerForm.controls.name.hasError('required') 
+                        && registerForm.controls.name.touched" class="alert alert-danger">
+                        Requerido.
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col width-100>
+                    <ion-item>
+                        <ion-label color="primary" stacked>Apellidos</ion-label>
+                        <ion-input type="text" formControlName="lastname">
+                        </ion-input>
+                    </ion-item>
+                    <div *ngIf="registerForm.controls.lastname.hasError('required') 
+                        && registerForm.controls.lastname.touched" class="alert alert-danger">
+                        Requerido.
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col width-100>
+                    <ion-item>
+                        <ion-label color="primary" stacked>Teléfono</ion-label>
+                        <ion-input type="text" formControlName="phone">
+                        </ion-input>
+                    </ion-item>
+                    <div *ngIf="registerForm.controls.phone.hasError('required') 
+                        && registerForm.controls.phone.touched" class="alert alert-danger">
+                        Requerido.
+                    </div>
+                    <div *ngIf="registerForm.controls.phone.hasError('pattern') 
+                        && registerForm.controls.phone.touched" class="alert alert-danger">
+                        Sólo números.
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col width-100>
+                    <ion-item>
+                        <ion-label color="primary" stacked>Género</ion-label>
+                        <ion-select [(ngModel)]="idGender" formControlName="idGender" interface="Alert" okText="Aceptar" cancelText="Cancelar">
+                            <ion-option *ngFor="let genero of listGeneros let i = index" value="{{genero.id}}" selected="i == 0">{{genero.description | capitalize}}</ion-option>
+                        </ion-select>
+                    </ion-item>
+                    <div *ngIf="registerForm.controls.idGender.hasError('required') 
+                        && registerForm.controls.idGender.touched" class="alert alert-danger">
+                        Requerido.
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col width-100>
+                    <ion-item>
+                        <ion-label color="primary" stacked>Fecha de nacimiento</ion-label>
+                        <ion-datetime displayFormat="DD MMM, YYYY" [(ngModel)]="birthDate" formControlName="birthDate" 
+                                      min="1800-01-01" 
+                                      pickerFormat="DD MMM, YYYY"
+                            monthShortNames="{{ monthNames }}" cancelText="Cancelar" doneText="Aceptar">
+                        </ion-datetime>
+                    </ion-item>
+                    <div *ngIf="registerForm.controls.birthDate.hasError('required') 
+                        && registerForm.controls.birthDate.touched" class="alert alert-danger">
+                        Requerido.
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col width-100>
+                    <ion-item>
+                        <ion-label color="primary" stacked>Ciudad nacimiento</ion-label>
+                        <ion-select [(ngModel)]="idBornCity" formControlName="idBornCity" interface="Alert" okText="Aceptar" 
+                            cancelText="Cancelar">
+                            <ion-option *ngFor="let city of listCities let i = index" value="{{city.id}}">{{city.value | capitalize}}</ion-option>
+                        </ion-select>
+                    </ion-item>
+                    <div *ngIf="registerForm.controls.idBornCity.hasError('required') 
+                        && registerForm.controls.idBornCity.touched" class="alert alert-danger">
+                        Requerido.
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col width-80>
+                    <ion-item>
+                        <ion-label color="primary" stacked>Ciudad actual</ion-label>
+                        <ion-select [(ngModel)]="actualCity" formControlName="actualCity" interface="Alert" okText="Aceptar" 
+                            cancelText="Cancelar">
+                            <ion-option *ngFor="let city of listCitiesBorn let i = index" value="{{city.id}}">{{city.value | capitalize}}
+                            </ion-option>
+                        </ion-select>
+                    </ion-item>
+                    <div *ngIf="registerForm.controls.actualCity.hasError('required') 
+                        && registerForm.controls.actualCity.touched" class="alert alert-danger">
+                        Requerido.
+                    </div>
+                </ion-col>
+                <ion-col width-20>
+                    <ion-icon name="contact" (click)="getGeolocalization()"></ion-icon>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col width-100>
+                    <ion-item>
+                        <ion-label color="primary" stacked>E-mail</ion-label>
+                        <ion-input type="email" formControlName="email">
+                        </ion-input>
+                    </ion-item>
+                    <div *ngIf="registerForm.controls.email.hasError('required') 
+                        && registerForm.controls.email.touched" class="alert alert-danger">
+                        Requerido.
+                    </div>
+                    <div *ngIf="registerForm.controls.email.hasError('pattern') 
+                        && registerForm.controls.email.touched" class="alert alert-danger">
+                        Email inválido.
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col width-100>
+                    <ion-item>
+                        <ion-label color="primary" stacked>Contraseña</ion-label>
+                        <ion-input type="password" formControlName="password">
+                        </ion-input>
+                    </ion-item>
+                    <div *ngIf="registerForm.controls.password.hasError('required') 
+                        && registerForm.controls.password.touched" class="alert alert-danger">
+                        Requerido.
+                    </div>
+                    <div *ngIf="registerForm.controls.password.hasError('minLength') 
+                        && registerForm.controls.password.touched" class="alert alert-danger">
+                        Mínimo 6 carácteres.
+                    </div>
+                    <div *ngIf="registerForm.controls.password.hasError('pattern') 
+                        && registerForm.controls.password.touched" class="alert alert-danger">
+                        Mínimo una letra mayúscula ,una miníscula y un número.
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col width-100>
+                    <ion-item>
+                        <ion-label color="primary" stacked>Repetir contraseña</ion-label>
+                        <ion-input type="password" formControlName="confirmPassword">
+                        </ion-input>
+                    </ion-item>
+                    <div *ngIf="registerForm.controls.confirmPassword.hasError('required') 
+                        && registerForm.controls.confirmPassword.touched" class="alert alert-danger">
+                        Requerido.
+                    </div>
+                    <div *ngIf="registerForm.hasError('isMatchPassword') 
+                        && registerForm.controls.confirmPassword.touched" class="alert alert-danger">
+                        Las contraseñas deben coincidir.
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col width-100>
+                    <ion-item>
+                        <ion-label color="primary" stacked>Acepta los
+                            <a href="#">Términos y condiciones</a>
+                        </ion-label>
+                        <ion-toggle [(ngModel)]="termsAgree" checked="false" formControlName="termsAgree"></ion-toggle>
+                    </ion-item>
+                    <div *ngIf="registerForm.controls.termsAgree.hasError('required') 
+                        && registerForm.controls.termsAgree.touched" class="alert alert-danger">
+                        Requerido.
+                    </div>
+                    <div *ngIf="registerForm.controls.termsAgree.hasError('isValid') 
+                        && registerForm.controls.termsAgree.touched" class="alert alert-danger">
+                        Debe aceptar los términos y condiciones.
+                    </div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+        <button ion-button clear type="submit" >Registrar</button>
+    </form>
+    <ion-grid>
+        <ion-row>
+            <ion-col width-50>
+                <ion-col width-50>
+                    <button ion-button clear item-right [navPush]="loginComponent">Volver</button>
+                </ion-col>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
